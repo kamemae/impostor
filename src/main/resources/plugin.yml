@@ -1,0 +1,22 @@
+main: me.kamemae.impostor.Main
+version: 0.1
+name: Impostor
+author: makaron_
+api-version: 1.20
+
+commands:
+  about:
+    description: Show info about the plugin
+    usage: /about
+  setimpostors:
+    description: Set the number of impostors
+    usage: /setimpostors <num>
+  start:
+    description: Start the impostor game
+    usage: /start
+  lost:
+    description: Im lost please help
+    usage: /lost
+  wherami:
+    description: Shares your location
+    usage: /wherami
