@@ -2,6 +2,7 @@ package me.kamemae.impostor;
 
 import me.kamemae.impostor.listeners.PlayerListener;
 import me.kamemae.impostor.listeners.ChatListener;
+import me.kamemae.impostor.listeners.CommandsListener;
 import me.kamemae.impostor.listeners.DeathListener;
 import me.kamemae.impostor.listeners.ObjectiveListener;
 import me.kamemae.impostor.managers.PluginManager;
@@ -21,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.Sound;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,14 +30,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
 public class Main extends JavaPlugin {
 
     private boolean gameStarted = false;
+    public boolean isGameStarted() { return gameStarted; }
 
     private List<Player> impostors = new ArrayList<>();
     public List<Player> getImpostors() { return impostors; }
@@ -49,8 +47,9 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         PluginManager.getInstance().initialize();
 
-        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
         getServer().getPluginManager().registerEvents(new ChatListener(false), this);
+        getServer().getPluginManager().registerEvents(new CommandsListener(), this);
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
         getServer().getPluginManager().registerEvents(new ObjectiveListener(), this);
 
@@ -137,6 +136,13 @@ public class Main extends JavaPlugin {
             impostors.add(players.get(i));
         }
 
+        for(World world : Bukkit.getWorlds()) {
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
+            world.setGameRule(GameRule.SHOW_DEATH_MESSAGES, false);
+            world.setGameRule(GameRule.LOCATOR_BAR, false);
+        }
+
+
         runners.clear();
         runners.addAll(players);
         runners.removeAll(impostors);
@@ -163,8 +169,10 @@ public class Main extends JavaPlugin {
             if(impostors.contains(player)) {
                 player.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + "IMPOSTOR", ChatColor.WHITE + "Objective: Kill all runners", 10, 100, 20);
                 giveTrackingCompass(player);
+                player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 1.0f);
             } else {
                 player.sendTitle(ChatColor.GREEN + "" + ChatColor.BOLD + "RUNNER", ChatColor.WHITE + "Objective: Slay the Ender Dragon", 10, 100, 20);
+                player.playSound(player.getLocation(), Sound.ENTITY_ALLAY_AMBIENT_WITHOUT_ITEM, 1.0f, 1.0f);
             }
         }
 
@@ -184,6 +192,7 @@ public class Main extends JavaPlugin {
 
                 for(Player player : Bukkit.getOnlinePlayers()) {
                     player.sendTitle(ChatColor.RED + "" + timeLeft, ChatColor.WHITE + "We will try to start the game with " + impostorCount + " impostor" + (impostorCount > 1 ? "s" : ""), 1, 20, 1);
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.0f);
                 }
             }, 20L * (secs - i));
         }

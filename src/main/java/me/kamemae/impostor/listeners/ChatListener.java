@@ -13,7 +13,7 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if (!chatEnabled) {
+        if(!chatEnabled) {
             event.setCancelled(true);
             event.getPlayer().sendMessage("Chat is disabled during the game");
         }
