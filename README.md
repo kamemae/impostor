@@ -66,3 +66,6 @@ If you’d like to download the plugin directly:
 - Disable player location bar
 - Try to hide players on Player List
 - Add sounds
+- Detective role
+- On impostor leave stop the game
+- MORE CONFIGURATION
