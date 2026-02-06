@@ -61,11 +61,7 @@ If you’d like to download the plugin directly:
 - Works on **latest Minecraft** version (1.21.11)
 
 ## TODO
-- Disable msg
-- Disable achivements in other words
-- Disable player location bar
 - Try to hide players on Player List
-- Add sounds
 - Detective role
 - On impostor leave stop the game
 - MORE CONFIGURATION
