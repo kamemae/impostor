@@ -20,7 +20,7 @@ If you’d like to download the plugin directly:
 ## 🛠️ Building it yourself
 1. Clone or download repo
 2. Open terminal and navigate into folder with plugin
-3. Download maven (on windows add it into Env Variables)
+3. Download maven (on windows add it into Env Variables) and java (17 or higher)
 4. Compile plugin and create package
 ```
     mvn clean compile
