@@ -52,9 +52,10 @@ public class DeathListener implements Listener  {
             ded.setGameMode(GameMode.SPECTATOR);
         }
 
-        if(plugin.getRunners().isEmpty() && !plugin.getImpostors().isEmpty()) {
+        if(plugin.getRunners().isEmpty() && !plugin.getImpostors().isEmpty() && plugin.isGameStarted()) {
             for(Player player : Bukkit.getOnlinePlayers()) {
                 player.sendTitle(ChatColor.RED + "IMPOSTORS WIN!", "0 runners left", 10, 100, 20);
+                plugin.endGame();
             }
         }
     }

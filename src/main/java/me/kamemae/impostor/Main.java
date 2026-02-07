@@ -23,7 +23,6 @@ import org.bukkit.inventory.meta.CompassMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.Sound;
-
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -34,6 +33,13 @@ public class Main extends JavaPlugin {
 
     private boolean gameStarted = false;
     public boolean isGameStarted() { return gameStarted; }
+    public boolean endGame() {
+        if(gameStarted) {
+            gameStarted = false;
+            return true;
+        }
+        return false;
+    }
 
     private List<Player> impostors = new ArrayList<>();
     public List<Player> getImpostors() { return impostors; }
@@ -51,7 +57,7 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ChatListener(false), this);
         getServer().getPluginManager().registerEvents(new CommandsListener(), this);
         getServer().getPluginManager().registerEvents(new DeathListener(this), this);
-        getServer().getPluginManager().registerEvents(new ObjectiveListener(), this);
+        getServer().getPluginManager().registerEvents(new ObjectiveListener(this), this);
 
         getLogger().info("Impostor enabled");
     }
@@ -64,6 +70,7 @@ public class Main extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        // about
         if(command.getName().equalsIgnoreCase("about")) {
             sender.sendMessage("========================================");
             sender.sendMessage(ChatColor.RED + "ඞ IMPOSTOR ඞ");
@@ -73,6 +80,7 @@ public class Main extends JavaPlugin {
             return true;
         }
 
+        // /setimpostors
         if(command.getName().equalsIgnoreCase("setimpostors")) {
             if(args.length < 1) {
                 sender.sendMessage("Usage: /setimpostors <num>");
@@ -89,6 +97,7 @@ public class Main extends JavaPlugin {
             return true;
         }
 
+        // /start
         if(command.getName().equalsIgnoreCase("start")) {
             if(!gameStarted) {
                 gameStarted = true;
@@ -103,6 +112,9 @@ public class Main extends JavaPlugin {
         // /lost
         if(command.getName().equalsIgnoreCase("lost")) {
             if(gameStarted) {
+                if(sender instanceof Player player) {
+                    if(player.getGameMode() == GameMode.SPECTATOR) return true;
+                }
                 Bukkit.broadcastMessage(sender.getName() + " is lost");
             }
             return true;
@@ -137,7 +149,6 @@ public class Main extends JavaPlugin {
         }
 
         for(World world : Bukkit.getWorlds()) {
-            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
             world.setGameRule(GameRule.SHOW_DEATH_MESSAGES, false);
             world.setGameRule(GameRule.LOCATOR_BAR, false);
         }
@@ -150,7 +161,6 @@ public class Main extends JavaPlugin {
         World world = Bukkit.getWorlds().get(0);
         world.setDifficulty(Difficulty.NORMAL);
         world.setGameRule(GameRule.SHOW_DEATH_MESSAGES, false);
-        world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
 
         int effectDuration = 100;
 
@@ -191,6 +201,7 @@ public class Main extends JavaPlugin {
                 Bukkit.broadcastMessage(chatmsg);
 
                 for(Player player : Bukkit.getOnlinePlayers()) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOWNESS,  1, 255));
                     player.sendTitle(ChatColor.RED + "" + timeLeft, ChatColor.WHITE + "We will try to start the game with " + impostorCount + " impostor" + (impostorCount > 1 ? "s" : ""), 1, 20, 1);
                     player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BELL, 1.0f, 1.0f);
                 }

@@ -9,7 +9,7 @@ public class CommandsListener implements Listener {
     public void onCommand(PlayerCommandPreprocessEvent event) {
         String msg = event.getMessage().toLowerCase();
 
-        if(msg.startsWith("/msg") || msg.startsWith("/tell") || msg.startsWith("/w") || msg.startsWith("/tellraw")) {
+        if(msg.startsWith("/msg") || msg.startsWith("/tell") || msg.startsWith("/w") || msg.startsWith("/tellraw") || msg.startsWith("/me")) {
             event.setCancelled(true);
             event.getPlayer().sendMessage("Direct messages are disabled during the game");
         }
