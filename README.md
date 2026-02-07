@@ -55,17 +55,15 @@ If you’d like to download the plugin directly:
 
 ---
 
-## NOTES
+## 📝 NOTES
 - Designed for multiplayer
 - Best expirience with **[voice-chat](https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat)** plugin
 - Works on **latest Minecraft** version (1.21.11)
 
-## TODO
-- Disable msg
-- Disable achivements in other words
-- Disable player location bar
-- Try to hide players on Player List
-- Add sounds
-- Detective role
-- On impostor leave stop the game
-- MORE CONFIGURATION
+## 📋 Future plans
+- Time reset on game start
+- More **customization**
+- Better **game menager**
+- Hiding players in playerlist
+- **DETECTIVE** ROLE!!!!!!!!
+- ...and maybe integration with **[Multiverse-Core](https://www.spigotmc.org/resources/multiverse-core.390/)**  
