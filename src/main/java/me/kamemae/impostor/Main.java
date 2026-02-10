@@ -32,7 +32,6 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         PluginManager.getInstance().initialize();
 
-
         gameManager = new GameManager();
         countdownManager = new CountdownManager(this);
 

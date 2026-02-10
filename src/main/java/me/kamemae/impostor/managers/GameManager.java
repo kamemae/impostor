@@ -40,7 +40,7 @@ public class GameManager {
         return innocents;
     }
 
-
+    
     public void startGame() {
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         Collections.shuffle(players);
