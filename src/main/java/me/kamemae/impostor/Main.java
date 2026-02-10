@@ -1,28 +1,23 @@
 package me.kamemae.impostor;
-
-
+// managers
 import me.kamemae.impostor.managers.CountdownManager;
 import me.kamemae.impostor.managers.GameManager;
 import me.kamemae.impostor.managers.PluginManager;
-
-
+// commands
 import me.kamemae.impostor.commands.AboutCommand;
 import me.kamemae.impostor.commands.SetImpostorsCommand;
 import me.kamemae.impostor.commands.StartCommand;
-
+// util commands
 import me.kamemae.impostor.commands.UtilityCommands.Lost;
 import me.kamemae.impostor.commands.UtilityCommands.Wherami;
-
-
+// listeners / events
 import me.kamemae.impostor.listeners.ChatListener;
 import me.kamemae.impostor.listeners.CommandsListener;
 import me.kamemae.impostor.listeners.DeathListener;
 import me.kamemae.impostor.listeners.ObjectiveListener;
 import me.kamemae.impostor.listeners.PlayerListener;
 
-
 import org.bukkit.plugin.java.JavaPlugin;
-
 
 
 public class Main extends JavaPlugin {
@@ -78,5 +73,4 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         getLogger().info("Impostor disabled");
     }
-
 }
