@@ -4,16 +4,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-public class ChatListener implements Listener {
+import me.kamemae.impostor.managers.GameManager;
 
-    private boolean chatEnabled = true;
-    public ChatListener(boolean enabled) {
-        this.chatEnabled = enabled;
+public class ChatListener implements Listener {
+    private final GameManager gameManager;
+    public ChatListener(GameManager gameManager) {
+        this.gameManager = gameManager;
     }
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if(!chatEnabled) {
+        if(gameManager.isGameRunning()) {
             event.setCancelled(true);
             event.getPlayer().sendMessage("Chat is disabled during the game");
         }

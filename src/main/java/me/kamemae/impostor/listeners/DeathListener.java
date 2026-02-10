@@ -1,6 +1,5 @@
 package me.kamemae.impostor.listeners;
-import me.kamemae.impostor.Main;
-
+import me.kamemae.impostor.managers.GameManager;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.event.Listener;
@@ -14,19 +13,21 @@ import org.bukkit.Material;
 
 import java.util.List;
 
-public class DeathListener implements Listener  {
-    private final Main plugin;
 
-    public DeathListener(Main plugin) {
-        this.plugin = plugin;
+public class DeathListener implements Listener  {
+    private final GameManager gameManager;
+
+    public DeathListener(GameManager gameManager) {
+        this.gameManager = gameManager;
     }
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
 
-        if(plugin.getImpostors().contains(player)) {
-            Bukkit.getScheduler().runTaskLater(plugin, () -> plugin.giveTrackingCompass(player), 1L);
+
+        if(gameManager.getImpostorsList().contains(player)) {
+            //Bukkit.getScheduler().runTaskLater(gameManager, () -> gameManager.giveTrackingCompass(player), 1L);
         }
     }
 
@@ -40,10 +41,10 @@ public class DeathListener implements Listener  {
         event.getDrops().removeIf(item -> item != null && item.getType() == Material.COMPASS);
 
         ded.getServer().broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "" + ded.getName() + " died");
-        List<Player> impostors = plugin.getImpostors();
+        List<Player> impostors = gameManager.getImpostorsList();
 
-        if(plugin.getRunners().contains(ded)) {
-            plugin.getRunners().remove(ded);
+        if(gameManager.getInnocentsList().contains(ded)) {
+            gameManager.getInnocentsList().remove(ded);
         }
 
         if(impostors.contains(ded)) {
@@ -52,10 +53,10 @@ public class DeathListener implements Listener  {
             ded.setGameMode(GameMode.SPECTATOR);
         }
 
-        if(plugin.getRunners().isEmpty() && !plugin.getImpostors().isEmpty() && plugin.isGameStarted()) {
+        if(gameManager.getInnocentsList().isEmpty() && !gameManager.getImpostorsList().isEmpty() && gameManager.isGameRunning()) {
             for(Player player : Bukkit.getOnlinePlayers()) {
                 player.sendTitle(ChatColor.RED + "IMPOSTORS WIN!", "0 runners left", 10, 100, 20);
-                plugin.endGame();
+                gameManager.stopGame();
             }
         }
     }

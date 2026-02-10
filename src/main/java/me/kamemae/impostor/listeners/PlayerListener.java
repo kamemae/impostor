@@ -1,5 +1,5 @@
 package me.kamemae.impostor.listeners;
-import me.kamemae.impostor.Main;
+import me.kamemae.impostor.managers.GameManager;
 
 import org.bukkit.event.Listener;
 import org.bukkit.Bukkit;
@@ -10,31 +10,31 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 public class PlayerListener implements Listener {
-    private final Main plugin;
+    private final GameManager gameManager;
 
-    public PlayerListener(Main plugin) {
-        this.plugin = plugin;
+    public PlayerListener(GameManager gameManager) {
+        this.gameManager = gameManager;
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         // Handle player join event
-        if(plugin.isGameStarted()) {
+        if(gameManager.isGameRunning()) {
             event.getPlayer().sendMessage("A game is currently active. Please wait for the next round to join.");
             event.getPlayer().setGameMode(org.bukkit.GameMode.SPECTATOR);
         }
     }
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        if(plugin.isGameStarted()) {
+        if(gameManager.isGameRunning()) {
             event.setQuitMessage(null);
-            if(plugin.getImpostors().contains(event.getPlayer())) {
-                plugin.getImpostors().remove(event.getPlayer());
-                if(plugin.getImpostors().isEmpty()) {
+            if(gameManager.getImpostorsList().contains(event.getPlayer())) {
+                gameManager.getImpostorsList().remove(event.getPlayer());
+                if(gameManager.getImpostorsList().isEmpty()) {
                     for(Player player : Bukkit.getOnlinePlayers()) {
                         player.sendTitle("All impostors have left!", "", 10, 70, 10);
                         player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1.0f, 1.0f);
-                        plugin.endGame();
+                        gameManager.stopGame();
                     }
                 } else {
                     for(Player player : Bukkit.getOnlinePlayers()) {
