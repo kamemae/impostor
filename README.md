@@ -61,7 +61,6 @@ If you’d like to download the plugin directly:
 - Works on **latest Minecraft** version (1.21.11)
 
 ## 📋 Future plans
-- Time reset on game start
 - More **customization**
 - Better **game menager**
 - Hiding players in playerlist
