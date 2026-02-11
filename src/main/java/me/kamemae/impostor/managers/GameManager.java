@@ -98,7 +98,6 @@ public class GameManager {
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 2000, 1));
             player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 2000, 1));
         }
-        
 
         Bukkit.broadcastMessage("Game started!");
         gameStarted = true;
