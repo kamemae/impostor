@@ -81,6 +81,10 @@ public class GameManager {
             player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_GROWL, 1.0f, 1.0f);
 
             player.setGameMode(GameMode.SURVIVAL);
+            player.getInventory().clear();
+            player.getInventory().setArmorContents(null);
+            player.getInventory().setItemInOffHand(null);
+            player.getEnderChest().clear();
 
             if(getImpostorsList().contains(player)) {
                 player.sendTitle(ChatColor.RED + "IMPOSTOR", "Objective: Kill all innocents", 10, 100, 10);
