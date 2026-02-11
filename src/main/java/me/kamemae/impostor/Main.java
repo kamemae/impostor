@@ -11,13 +11,14 @@ import me.kamemae.impostor.commands.StartCommand;
 // util commands
 import me.kamemae.impostor.commands.UtilityCommands.Lost;
 import me.kamemae.impostor.commands.UtilityCommands.Wherami;
+import me.kamemae.impostor.listeners.AdvancementListener;
 // listeners / events
 import me.kamemae.impostor.listeners.ChatListener;
 import me.kamemae.impostor.listeners.CommandsListener;
 import me.kamemae.impostor.listeners.DeathListener;
 import me.kamemae.impostor.listeners.ObjectiveListener;
 import me.kamemae.impostor.listeners.PlayerListener;
-
+// bukkit 
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -68,6 +69,8 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DeathListener(gameManager), this);
         // Commands
         getServer().getPluginManager().registerEvents(new CommandsListener(gameManager), this);
+        // Achivements
+        getServer().getPluginManager().registerEvents(new AdvancementListener(gameManager), this);
         // Compass
         //getServer().getPluginManager().registerEvents(new CompassManager(gameManager, this), this);
         new CompassManager(gameManager, this);

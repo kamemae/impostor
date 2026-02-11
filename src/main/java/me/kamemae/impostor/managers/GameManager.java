@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.text.Position;
-
 
 public class GameManager {
     private int impostorCount = 1;
@@ -61,6 +59,7 @@ public class GameManager {
         for(World world : Bukkit.getWorlds()) {
             world.setGameRule(GameRule.SHOW_DEATH_MESSAGES, false);
             world.setGameRule(GameRule.LOCATOR_BAR, false);
+            world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
             world.setDifficulty(Difficulty.NORMAL);
             world.setTime(0);
         }
@@ -97,6 +96,7 @@ public class GameManager {
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 2000, 1));
             player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 2000, 1));
             player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 2000, 1));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 2000, 1));
         }
 
         Bukkit.broadcastMessage("Game started!");

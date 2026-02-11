@@ -21,6 +21,7 @@ public class PlayerListener implements Listener {
         if(gameManager.isGameRunning()) {
             event.getPlayer().sendMessage("A game is currently active. Please wait for the next round to join.");
             event.getPlayer().setGameMode(org.bukkit.GameMode.SPECTATOR);
+            event.setJoinMessage(null);
         }
     }
     @EventHandler
