@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.text.Position;
+
 
 public class GameManager {
     private int impostorCount = 1;
@@ -91,6 +93,10 @@ public class GameManager {
             } else {
                 player.sendTitle(ChatColor.GREEN + "INNOCENT", "Objective: Slay the Ender Dragon", 10, 100, 10);
             }
+
+            player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 2000, 1));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 2000, 1));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 2000, 1));
         }
         
 
