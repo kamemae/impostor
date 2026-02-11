@@ -14,14 +14,14 @@ public class CommandsListener implements Listener {
     @EventHandler
     public void onCommand(PlayerCommandPreprocessEvent event) {
         if(gameManager.isGameRunning()) {
-            String msg = event.getMessage().toLowerCase();
+            String msg = event.getMessage().toLowerCase().split(" ")[0];
 
             if(
-                msg.startsWith("/msg") || 
-                msg.startsWith("/tell") || 
-                msg.startsWith("/w") || 
-                msg.startsWith("/tellraw") || 
-                msg.startsWith("/me")) {
+                msg.equals("/msg") || 
+                msg.equals("/tell") || 
+                msg.equals("/w") || 
+                msg.equals("/tellraw") || 
+                msg.equals("/me")) {
 
                     event.setCancelled(true);
                     event.getPlayer().sendMessage("Chat is disabled during the game");

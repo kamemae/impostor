@@ -21,6 +21,9 @@ public class GameManager {
     public void setImpostorCount(int count) {
         impostorCount = count;
     }
+    public int getImpostorCount() {
+        return impostorCount;
+    }
 
     private boolean gameStarted = false;
     public boolean isGameRunning() {
@@ -85,6 +88,7 @@ public class GameManager {
                 player.sendTitle(ChatColor.GREEN + "INNOCENT", "Objective: Slay the Ender Dragon", 10, 100, 10);
             }
         }
+        
 
         Bukkit.broadcastMessage("Game started!");
         gameStarted = true;

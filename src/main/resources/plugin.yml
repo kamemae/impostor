@@ -15,8 +15,8 @@ commands:
     description: Start the impostor game
     usage: /start
   lost:
-    description: Im lost please help
+    description: Broadcast that player is lost
     usage: /lost
   wherami:
-    description: Shares your location
+    description: Broadcast player coordinates
     usage: /wherami

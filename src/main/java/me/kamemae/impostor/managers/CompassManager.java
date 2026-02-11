@@ -1,46 +1,80 @@
 package me.kamemae.impostor.managers;
-
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.CompassMeta;
+import org.bukkit.plugin.java.JavaPlugin;
 
-
+import net.md_5.bungee.api.ChatColor;
 public class CompassManager {
     private final GameManager gameManager;
-    public CompassManager(GameManager gameManager) {
+    private final JavaPlugin plugin;
+
+    public CompassManager(GameManager gameManager, JavaPlugin plugin) {
         this.gameManager = gameManager;
+        this.plugin = plugin;
+        startLocatorBarUpdater(); 
     }
 
-    public void updateCompass(Player impostor) {
-        Player nearest = getNearestRunner(impostor);
-        
-        if(nearest == null) return;
+    private double getRelativeAngle(Player from, Player to) {
+        double dx = to.getLocation().getX() - from.getLocation().getX();
+        double dz = to.getLocation().getZ() - from.getLocation().getZ();
 
+        double targetAngle = Math.toDegrees(Math.atan2(-dx, dz));
+        double yaw = from.getLocation().getYaw();
+        double angle = targetAngle - yaw;
 
-        for(ItemStack item : impostor.getInventory()) {
-            if(item == null || item.getType() != Material.COMPASS) continue;
+        while (angle > 180) angle -= 360;
+        while (angle < -180) angle += 360;
 
-
-            CompassMeta meta = (CompassMeta)item.getItemMeta();
-            meta.setLodestone(nearest.getLocation());
-            meta.setLodestoneTracked(false);
-            item.setItemMeta(meta);
-        }
+        return angle;
     }
 
-    private Player getNearestRunner(Player impostor) {
-        Player nearest = null;
-        double best = Double.MAX_VALUE;
+    private String buildLocatorBar(Player impostor) {
+        int barSize = 41;
+        char[] bar = new char[barSize];
+        for(int i = 0; i < barSize; i++) bar[i] = '-';
 
-        for(Player innocent : gameManager.getInnocentsList()) {
-            double distance = impostor.getLocation().distanceSquared(innocent.getLocation());
-            if(distance < best) {
-                best = distance;
-                nearest = innocent;
+        for(Player player : gameManager.getInnocentsList()) {
+            if(!player.isOnline()) continue;
+
+            double angle = getRelativeAngle(impostor, player);
+
+            if (angle > 90) bar[barSize - 1] = '>';
+            else if (angle < -90) bar[0] = '<';
+            else {
+                int index = (int) ((angle + 180) / 360 * (barSize - 1));
+                if(index >= 0 && index < barSize) { 
+                    ChatColor color = ChatColor.WHITE;
+                    String worldName = player.getWorld().getName().toLowerCase();
+                    if(worldName.contains("nether")) color = ChatColor.RED;
+                    else if(worldName.contains("end")) color = ChatColor.LIGHT_PURPLE;
+                    else color = ChatColor.GREEN;
+
+                    bar[index] = '◆';
+
+                    StringBuilder sb = new StringBuilder(new String(bar));
+                    sb.setCharAt(index, '◆');
+                    sb.insert(index, color);
+                    sb.insert(index + color.toString().length() + 1, ChatColor.WHITE);
+                    bar = sb.toString().toCharArray();
+                }
             }
         }
 
-        return nearest;
+        return "[" + new String(bar) + "]";
+    }
+
+    private void startLocatorBarUpdater() {
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            for(Player impostor : gameManager.getImpostorsList()) {
+                if(!impostor.isOnline()) continue;
+
+                String bar = buildLocatorBar(impostor);
+
+                impostor.spigot().sendMessage(
+                    net.md_5.bungee.api.ChatMessageType.ACTION_BAR,
+                    new net.md_5.bungee.api.chat.TextComponent(bar)
+                );
+            }
+        }, 0L, 1L);
     }
 }

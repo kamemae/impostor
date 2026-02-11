@@ -1,4 +1,5 @@
 package me.kamemae.impostor;
+import me.kamemae.impostor.managers.CompassManager;
 // managers
 import me.kamemae.impostor.managers.CountdownManager;
 import me.kamemae.impostor.managers.GameManager;
@@ -25,8 +26,9 @@ public class Main extends JavaPlugin {
     private CountdownManager countdownManager;
 
     public int getImpostorCount() {
-        return gameManager.getImpostorsList().size();
+        return gameManager.getImpostorCount();
     }
+
 
     @Override
     public void onEnable() {
@@ -49,6 +51,10 @@ public class Main extends JavaPlugin {
 
         // util commands - during game
         getCommand("lost").setExecutor(new Lost(gameManager));
+
+        if (getCommand("wherami") == null) {
+            getLogger().warning("Wherami command is NULL!");
+        }
         getCommand("wherami").setExecutor(new Wherami(gameManager));
     }
     private void registerListeners() {
@@ -62,6 +68,9 @@ public class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DeathListener(gameManager), this);
         // Commands
         getServer().getPluginManager().registerEvents(new CommandsListener(gameManager), this);
+        // Compass
+        //getServer().getPluginManager().registerEvents(new CompassManager(gameManager, this), this);
+        new CompassManager(gameManager, this);
     }
 
     public GameManager getGameManager() {

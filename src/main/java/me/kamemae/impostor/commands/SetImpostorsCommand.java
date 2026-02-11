@@ -1,5 +1,6 @@
 package me.kamemae.impostor.commands;
 import me.kamemae.impostor.managers.GameManager;
+import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,12 +30,14 @@ public class SetImpostorsCommand implements CommandExecutor {
                 sender.sendMessage("Number of impostors can not be greater than number of players online!");
                 return true;
             }
+
+            sender.sendMessage("Number of impostors: " + ChatColor.RED + tmp);
+
             gameManager.setImpostorCount(tmp);
         } catch(NumberFormatException ex) {
             sender.sendMessage("Number of impostors is not a number!");
-        } finally {
-            sender.sendMessage("Number of impostors: " + tmp);
         }
+
         return true;
     }
     
