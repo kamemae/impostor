@@ -78,7 +78,7 @@ public class Main extends JavaPlugin {
         // Commands
         getServer().getPluginManager().registerEvents(new CommandsListener(gameManager), this);
         // Achivements
-        getServer().getPluginManager().registerEvents(new AdvancementListener(gameManager), this);
+        //getServer().getPluginManager().registerEvents(new AdvancementListener(gameManager), this);
         // Compass
         //getServer().getPluginManager().registerEvents(new CompassManager(gameManager, this), this);
         new CompassManager(gameManager, this);
