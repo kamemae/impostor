@@ -22,11 +22,11 @@ public class AdvancementListener implements Listener {
         if(event.getPlayer().getGameMode() == GameMode.SPECTATOR) return;
 
         String fullAdvancement = event.getAdvancement().getKey().getKey();
+
         if(fullAdvancement.startsWith("recipes/")) return;
 
         String name = formatName(fullAdvancement);
         if(name.startsWith("Root")) return;
-
 
         String msg = ChatColor.WHITE + event.getPlayer().getName() + " has made the advancement " + ChatColor.GREEN + "[" + name + "]";
         for(Player player : Bukkit.getOnlinePlayers()) {
