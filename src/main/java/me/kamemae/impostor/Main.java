@@ -10,6 +10,8 @@ import me.kamemae.impostor.commands.AboutCommand;
 import me.kamemae.impostor.commands.SetImpostorsCommand;
 import me.kamemae.impostor.commands.SetRoundTimeCommand;
 import me.kamemae.impostor.commands.StartCommand;
+import me.kamemae.impostor.commands.CharacterCommands.Accuse;
+import me.kamemae.impostor.commands.CharacterCommands.Impersonate;
 // util commands
 import me.kamemae.impostor.commands.UtilityCommands.Lost;
 import me.kamemae.impostor.commands.UtilityCommands.Wherami;
@@ -59,6 +61,10 @@ public class Main extends JavaPlugin {
         // util commands - during game
         getCommand("lost").setExecutor(new Lost(gameManager));
         getCommand("wherami").setExecutor(new Wherami(gameManager));
+
+        // character specified
+        getCommand("impersonate").setExecutor(new Impersonate(gameManager));
+        getCommand("accuse").setExecutor(new Accuse(gameManager));
     }
     private void registerListeners() {
         // Players

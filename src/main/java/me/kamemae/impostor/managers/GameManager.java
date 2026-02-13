@@ -22,7 +22,7 @@ public class GameManager {
         this.timerManager = timerManager;
     }
 
-    private int gameTimer;
+    private int gameTimer = 5400;
     public void setGameTimer(int mins) {
         gameTimer = mins;
     }
@@ -34,6 +34,7 @@ public class GameManager {
     public int getImpostorCount() {
         return impostorCount;
     }
+
 
     private boolean gameStarted = false;
     public boolean isGameRunning() {
@@ -79,6 +80,7 @@ public class GameManager {
         return;
     }
 
+    //players
     private final List<Player> impostors = new ArrayList<>();
     public List<Player> getImpostorsList() {
         return impostors;
@@ -87,6 +89,17 @@ public class GameManager {
     private final List<Player> innocents = new ArrayList<>();
     public List<Player> getInnocentsList() {
         return innocents;
+    }
+
+    //roles
+    private Player impersonator = null;
+    public Player getImpersonator() {
+        return impersonator;
+    }
+
+    private Player investigator = null;
+    public Player getInvestigator() {
+        return investigator;
     }
 
     
@@ -134,9 +147,46 @@ public class GameManager {
             player.getEnderChest().clear();
 
             if(getImpostorsList().contains(player)) {
-                player.sendTitle(ChatColor.RED + "IMPOSTOR", "Objective: Kill all innocents", 10, 100, 10);
+                if(impostorCount > 1 && impersonator == null) {
+                    Collections.shuffle(impostors);
+                    impersonator = impostors.get(0);
+                }
+
+                String title = (player == impersonator) ? "IMPERSONATOR" : "IMPOSTOR";
+                player.sendTitle(ChatColor.RED + title, "Objective: Kill all innocents", 10, 100, 10);
+
+                player.sendMessage("");
+                player.sendMessage(ChatColor.RED + "You are " + title + "!");
+                if(player == impersonator) {
+                    player.sendMessage(ChatColor.RED + "You can use /impersonate <player_name>");
+                    player.sendMessage(ChatColor.RED + "To send fake death message");
+                } else {
+                    player.sendMessage(ChatColor.RED + "Kill all innocent players");
+                    player.sendMessage(ChatColor.RED + "and dont get discovered");
+                }
+                player.sendMessage("");
+
             } else {
-                player.sendTitle(ChatColor.GREEN + "INNOCENT", "Objective: Slay the Ender Dragon", 10, 100, 10);
+                if(getInnocentsList().size() > (impostorCount + 2) && investigator == null) {
+                    Collections.shuffle(innocents);
+                    investigator = innocents.get(0);
+                }
+
+                String title = (player == investigator) ? "INVESTIGATOR" : "INNOCENT";
+                player.sendTitle(ChatColor.GREEN + title, "Objective: Slay the Ender Dragon", 10, 100, 10);
+
+                player.sendMessage("");
+            
+                player.sendMessage(ChatColor.GREEN + "You are " + title + "!");
+                if(player  == investigator) {
+                    player.sendMessage(ChatColor.GREEN + "You can use /accuse to accuse player of your choice");
+                    player.sendMessage(ChatColor.GREEN + "Youll die if you're wrong");
+                    player.sendMessage(ChatColor.GREEN + "also kill the Ender Dragon");
+                } else {
+                    player.sendMessage(ChatColor.GREEN + "Kill the Ender Dragon");
+                    player.sendMessage(ChatColor.GREEN + "and dont die");
+                }
+                player.sendMessage("");
             }
 
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 2000, 1));
@@ -146,7 +196,6 @@ public class GameManager {
         }
 
         timerManager.start(gameTimer);
-
 
         Bukkit.broadcastMessage("Game started!");
         gameStarted = true;
