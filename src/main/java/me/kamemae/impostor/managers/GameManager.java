@@ -14,6 +14,7 @@ import net.md_5.bungee.api.ChatColor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 
 public class GameManager {
@@ -150,6 +151,13 @@ public class GameManager {
                 if(impostorCount > 1 && impersonator == null) {
                     Collections.shuffle(impostors);
                     impersonator = impostors.get(0);
+                }
+                if(impersonator == null) {
+                    Random random = new Random();
+                    if(random.nextInt() % 2 == 0) {
+                        Collections.shuffle(impostors);
+                        impersonator = impostors.get(0);
+                    }
                 }
 
                 String title = (player == impersonator) ? "IMPERSONATOR" : "IMPOSTOR";

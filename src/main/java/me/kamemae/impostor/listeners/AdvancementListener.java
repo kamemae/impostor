@@ -19,9 +19,9 @@ public class AdvancementListener implements Listener {
     @EventHandler
     public void onAdvancement(PlayerAdvancementDoneEvent event) {
         if(!gameManager.isGameRunning()) return;
+        if(event.getPlayer().getGameMode() == GameMode.SPECTATOR) return;
 
         String fullAdvancement = event.getAdvancement().getKey().getKey();
-
         if(fullAdvancement.startsWith("recipes/")) return;
 
         String name = formatName(fullAdvancement);
@@ -30,7 +30,6 @@ public class AdvancementListener implements Listener {
 
         String msg = ChatColor.WHITE + event.getPlayer().getName() + " has made the advancement " + ChatColor.GREEN + "[" + name + "]";
         for(Player player : Bukkit.getOnlinePlayers()) {
-            if(player.getGameMode() == GameMode.SPECTATOR) continue;
             player.sendMessage(msg);
         }
 
