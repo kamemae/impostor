@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -27,7 +28,7 @@ public class Accuse implements CommandExecutor {
     
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(gameManager.isGameRunning() && sender instanceof Player player && player == gameManager.getInvestigator() && investigation) {
+        if(gameManager.isGameRunning() && sender instanceof Player player && player == gameManager.getInvestigator() && player.getGameMode() != GameMode.SPECTATOR && investigation) {
             investigation = false;
 
             if(args.length == 0) {
