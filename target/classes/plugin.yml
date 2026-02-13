@@ -1,0 +1,31 @@
+main: me.kamemae.impostor.Main
+version: 1.2.1
+name: Impostor
+author: makaron_
+api-version: 1.20
+
+commands:
+  about:
+    description: Show info about the plugin
+    usage: /about
+  setimpostors:
+    description: Set the number of impostors
+    usage: /setimpostors <num>
+  start:
+    description: Start the impostor game
+    usage: /start
+  lost:
+    description: Broadcast that player is lost
+    usage: /lost
+  wherami:
+    description: Broadcast player coordinates
+    usage: /wherami
+  setroundtime:
+    description: Set round time
+    usage: /setroundtime
+  impersonate:
+    description: Fake a player's death as an impostor
+    usage: /impersonate <player>
+  accuse:
+    description: Accuse player to find out if he's an impostor
+    usage: /accuse <player>
