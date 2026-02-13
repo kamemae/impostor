@@ -4,9 +4,11 @@ import me.kamemae.impostor.managers.CompassManager;
 import me.kamemae.impostor.managers.CountdownManager;
 import me.kamemae.impostor.managers.GameManager;
 import me.kamemae.impostor.managers.PluginManager;
+import me.kamemae.impostor.managers.TimerManager;
 // commands
 import me.kamemae.impostor.commands.AboutCommand;
 import me.kamemae.impostor.commands.SetImpostorsCommand;
+import me.kamemae.impostor.commands.SetRoundTimeCommand;
 import me.kamemae.impostor.commands.StartCommand;
 // util commands
 import me.kamemae.impostor.commands.UtilityCommands.Lost;
@@ -26,6 +28,8 @@ public class Main extends JavaPlugin {
     private GameManager gameManager;
     private CountdownManager countdownManager;
 
+    private TimerManager timerManager;
+
     public int getImpostorCount() {
         return gameManager.getImpostorCount();
     }
@@ -34,9 +38,10 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         PluginManager.getInstance().initialize();
-
         gameManager = new GameManager();
         countdownManager = new CountdownManager(this);
+        timerManager = new TimerManager(gameManager, this);
+        gameManager.SetTimer(timerManager);
 
         registerCommands();
         registerListeners();
@@ -49,13 +54,10 @@ public class Main extends JavaPlugin {
         getCommand("start").setExecutor(new StartCommand(gameManager, countdownManager));
         getCommand("about").setExecutor(new AboutCommand());
         getCommand("setimpostors").setExecutor(new SetImpostorsCommand(gameManager));
-
+        getCommand("setroundtime").setExecutor(new SetRoundTimeCommand(gameManager));
+    
         // util commands - during game
         getCommand("lost").setExecutor(new Lost(gameManager));
-
-        if (getCommand("wherami") == null) {
-            getLogger().warning("Wherami command is NULL!");
-        }
         getCommand("wherami").setExecutor(new Wherami(gameManager));
     }
     private void registerListeners() {

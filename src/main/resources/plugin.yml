@@ -20,3 +20,6 @@ commands:
   wherami:
     description: Broadcast player coordinates
     usage: /wherami
+  setroundtime:
+    description: Set round time
+    usage: /setroundtime

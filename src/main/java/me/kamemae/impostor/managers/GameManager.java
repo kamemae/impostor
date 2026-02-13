@@ -17,6 +17,16 @@ import java.util.List;
 
 
 public class GameManager {
+    private TimerManager timerManager;
+    public void SetTimer(TimerManager timerManager) {
+        this.timerManager = timerManager;
+    }
+
+    private int gameTimer;
+    public void setGameTimer(int mins) {
+        gameTimer = mins;
+    }
+
     private int impostorCount = 1;
     public void setImpostorCount(int count) {
         impostorCount = count;
@@ -29,8 +39,44 @@ public class GameManager {
     public boolean isGameRunning() {
         return gameStarted;
     }
-    public void stopGame() {
+    public void stopGame(int winCase) {
+        String tittlemsg = "";
+        String submsg = "";
+        ChatColor color = ChatColor.WHITE;
+        switch(winCase) {
+            case 0:
+                tittlemsg = "IMPOSTORS WON!";
+                submsg = "All innocents died";
+                color = ChatColor.RED;
+                break;
+
+            case 1:
+                tittlemsg = "INNOCENTS WON!";
+                submsg = "Ender Dragons has been Slain";
+                color = ChatColor.GREEN;
+                break;
+
+            case 2:
+                tittlemsg = "INNOCENTS WON?";
+                submsg = "Impostors left the game";
+                color = ChatColor.GREEN;
+                break;
+
+            case 3: 
+                tittlemsg = "IMPOSTORS WON?";
+                submsg = "Time's up!";
+                color = ChatColor.RED;
+                break;
+
+            default:
+                break;
+        }
+        Bukkit.broadcastMessage(submsg + " " + tittlemsg);
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            player.sendTitle(color + tittlemsg, submsg, 10, 100, 10);
+        }
         gameStarted = false;
+        return;
     }
 
     private final List<Player> impostors = new ArrayList<>();
@@ -98,6 +144,9 @@ public class GameManager {
             player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 2000, 1));
             player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 2000, 1));
         }
+
+        timerManager.start(gameTimer);
+
 
         Bukkit.broadcastMessage("Game started!");
         gameStarted = true;

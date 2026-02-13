@@ -7,9 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.entity.Player;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 
 import java.util.List;
 
@@ -37,9 +35,6 @@ public class DeathListener implements Listener  {
         event.setDeathMessage(null);
         Player ded = event.getEntity();
 
-        // if impostor compass skibidi
-        event.getDrops().removeIf(item -> item != null && item.getType() == Material.COMPASS);
-
         ded.getServer().broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + "" + ded.getName() + " died");
         List<Player> impostors = gameManager.getImpostorsList();
 
@@ -54,10 +49,7 @@ public class DeathListener implements Listener  {
         }
 
         if(gameManager.getInnocentsList().isEmpty() && !gameManager.getImpostorsList().isEmpty() && gameManager.isGameRunning()) {
-            for(Player player : Bukkit.getOnlinePlayers()) {
-                player.sendTitle(ChatColor.RED + "IMPOSTORS WIN!", "0 runners left", 10, 100, 20);
-                gameManager.stopGame();
-            }
+            gameManager.stopGame(0);
         }
     }
 }

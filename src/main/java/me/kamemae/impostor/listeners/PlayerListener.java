@@ -31,11 +31,7 @@ public class PlayerListener implements Listener {
             if(gameManager.getImpostorsList().contains(event.getPlayer())) {
                 gameManager.getImpostorsList().remove(event.getPlayer());
                 if(gameManager.getImpostorsList().isEmpty()) {
-                    for(Player player : Bukkit.getOnlinePlayers()) {
-                        player.sendTitle("All impostors have left!", "", 10, 70, 10);
-                        player.playSound(player.getLocation(), Sound.ENTITY_ENDER_DRAGON_DEATH, 1.0f, 1.0f);
-                        gameManager.stopGame();
-                    }
+                    gameManager.stopGame(2);
                 } else {
                     for(Player player : Bukkit.getOnlinePlayers()) {
                         player.sendTitle("An impostor has left!", "", 10, 70, 10);
