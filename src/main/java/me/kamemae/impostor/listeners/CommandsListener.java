@@ -16,11 +16,9 @@ public class CommandsListener implements Listener {
         if(gameManager.isGameRunning()) {
             String msg = event.getMessage().toLowerCase().split(" ")[0];
 
-            if(
-                msg.equals("/msg") || 
+            if( msg.equals("/msg") || 
                 msg.equals("/tell") || 
                 msg.equals("/w") || 
-                msg.equals("/tellraw") || 
                 msg.equals("/me")) {
 
                     event.setCancelled(true);
