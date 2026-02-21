@@ -33,12 +33,26 @@ public class Accuse implements CommandExecutor {
 
             if(args.length == 0) {
                 investigation = true;
-                return false;
+                return true;
             }
 
             String targetName = args[0];
 
             Player accused = null;
+            if(gameManager.getJesterStatus()) {
+                if(gameManager.getJester().getName() == targetName) {
+                    //\ = gameManager.getJester();
+                    Bukkit.broadcastMessage(ChatColor.RED + "" + ChatColor.BOLD + targetName + " was *THE* JESTER");
+                    gameManager.clearJester();
+                    gameManager.getJester().setHealth(0);
+                    for (Player allPlayers : Bukkit.getOnlinePlayers()) {
+                        allPlayers.sendTitle(ChatColor.RED + "" + ChatColor.BOLD + targetName + " was *THE* JESTER", "Detective guessed who *THE* JESTER was", 10, 100, 10);
+                        allPlayers.playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1.0f, 1.5f);
+                    }
+                    return true;
+                }
+            }
+
             for(Player impostor : gameManager.getImpostorsList()) {
                 if(impostor.getName().equalsIgnoreCase(targetName)) {
                     accused = impostor;
@@ -58,7 +72,7 @@ public class Accuse implements CommandExecutor {
                     allPlayers.playSound(player.getLocation(), Sound.ENTITY_BLAZE_DEATH, 1.0f, 1.5f);
                 }
             } else {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill " + player.getName());
+                player.setHealth(0);
             }
         }
         return true;

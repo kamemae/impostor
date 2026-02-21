@@ -39,20 +39,21 @@ public class DeathListener implements Listener  {
 
 
         if(gameManager.getJesterStatus() && gameManager.getJester() != null) {
-            if(gameManager.getJester().equals(ded)) {
-                if(gameManager.getInnocentsList().contains(event.getDamageSource().getDirectEntity())) {
-                    gameManager.clearJester();
-                    gameManager.stopGame(4);
-                }
-            } else {
-                if(gameManager.getInnocentsList().contains(ded)) {
-                    if(gameManager.getJester().equals(event.getDamageSource().getDirectEntity())) {
-                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "kill " + gameManager.getJester().getName());
+            Player killer = event.getEntity().getKiller();
+            if(killer != null) {
+                if(gameManager.getJester().equals(killer)) {
+                    if(gameManager.getInnocentsList().contains(ded)) {
+                        killer.setHealth(0);
                         gameManager.clearJester();
+                    }
+                } else {
+                    if(ded.equals(gameManager.getJester()) && gameManager.getInnocentsList().contains(killer)) {
+                        gameManager.stopGame(69);
                     }
                 }
             }
         }
+
 
 
         if(gameManager.getInnocentsList().contains(ded)) {

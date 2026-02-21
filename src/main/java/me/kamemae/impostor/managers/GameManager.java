@@ -74,7 +74,7 @@ public class GameManager {
                 color = ChatColor.RED;
                 break;
 
-            case 4:
+            case 69:
                 tittlemsg = "JESTER WON!";
                 submsg = "Somebody just killed *THE* JESTER!";
                 color = ChatColor.LIGHT_PURPLE;
@@ -152,7 +152,7 @@ public class GameManager {
         }
         if(impersonator == null) {
             Random random = new Random();
-            if(random.nextInt() % 2 == 0) {
+            if(random.nextInt() % 1 == 0) {
                 Collections.shuffle(impostors);
                 impersonator = impostors.get(0);
             }
@@ -178,12 +178,13 @@ public class GameManager {
 
         for(World world : Bukkit.getWorlds()) {
             world.setGameRule(GameRule.SHOW_DEATH_MESSAGES, false);
-            world.setGameRule(GameRule.LOCATOR_BAR, false);
+            world.setGameRule(GameRule.LOCATOR_BAR, true);
             world.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false);
             world.setDifficulty(Difficulty.NORMAL);
             world.setTime(0);
         }
 
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute as @a run attribute @s minecraft:waypoint_transmit_range base set 10000000");
 
         int effectAmp = 255;
         int effectDur = 100;
@@ -232,6 +233,7 @@ public class GameManager {
                 }
                 player.sendMessage("");
                 Bukkit.dispatchCommand(sender, "team join impostor " + player.getName());
+                Bukkit.dispatchCommand(sender, "attribute " + player.getName() + " minecraft:waypoint_receive_range base set 1000000");
 
             } else if(jester.equals(player)) {
                 player.sendTitle(ChatColor.LIGHT_PURPLE + "JESTER", "Objective: Get killed by innocent player", 10, 100, 10);
@@ -243,7 +245,9 @@ public class GameManager {
                 player.sendMessage(ChatColor.LIGHT_PURPLE + "also dont kill INNOCENT players");
 
                 player.sendMessage("");
-                Bukkit.dispatchCommand(sender, "team join innocent " + player.getName());
+                Bukkit.dispatchCommand(sender, "team join impostor " + player.getName());
+                Bukkit.dispatchCommand(sender, "attribute " + player.getName() + " minecraft:waypoint_receive_range base set 1000000");
+
             } else {
                 String title = (player == investigator) ? "INVESTIGATOR" : "INNOCENT";
                 player.sendTitle(ChatColor.GREEN + title, "Objective: Slay the Ender Dragon", 10, 100, 10);
@@ -261,6 +265,7 @@ public class GameManager {
                 }
                 player.sendMessage("");
                 Bukkit.dispatchCommand(sender, "team join innocent " + player.getName());
+                Bukkit.dispatchCommand(sender, "attribute " + player.getName() + " minecraft:waypoint_receive_range base set 0");
             }
 
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 2000, 1));
