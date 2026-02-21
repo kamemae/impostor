@@ -39,8 +39,8 @@ public class DeathListener implements Listener  {
             if(killer != null) {
                 if(gameManager.getJester().equals(killer)) {
                     if(gameManager.getInnocentsList().contains(ded)) {
-                        killer.setHealth(0);
                         gameManager.clearJester();
+                        killer.damage(100);
                     }
                 } else {
                     if(ded.equals(gameManager.getJester()) && gameManager.getInnocentsList().contains(killer)) {
