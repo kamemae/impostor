@@ -83,7 +83,7 @@ public class Main extends JavaPlugin {
         //getServer().getPluginManager().registerEvents(new AdvancementListener(gameManager), this);
         // Compass
         //getServer().getPluginManager().registerEvents(new CompassManager(gameManager, this), this);
-        new CompassManager(gameManager, this);
+        //new CompassManager(gameManager, this);
     }
 
     public GameManager getGameManager() {

@@ -7,11 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.entity.Player;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-
-import java.util.List;
-
 
 public class DeathListener implements Listener  {
     private final GameManager gameManager;
