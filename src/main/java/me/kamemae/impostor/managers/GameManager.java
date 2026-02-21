@@ -16,6 +16,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.bukkit.command.CommandSender;
+
 
 public class GameManager {
     private TimerManager timerManager;
@@ -42,6 +44,8 @@ public class GameManager {
         return gameStarted;
     }
     public void stopGame(int winCase) {
+        if(!gameStarted) return;
+
         String tittlemsg = "";
         String submsg = "";
         ChatColor color = ChatColor.WHITE;
@@ -70,7 +74,15 @@ public class GameManager {
                 color = ChatColor.RED;
                 break;
 
+            case 4:
+                tittlemsg = "JESTER WON!";
+                submsg = "Somebody just killed *THE* JESTER!";
+                color = ChatColor.LIGHT_PURPLE;
+                break;
+
             default:
+                tittlemsg = "idk sth went wrong";
+                submsg = "nobody wins";
                 break;
         }
         Bukkit.broadcastMessage(submsg + " " + tittlemsg);
@@ -93,14 +105,32 @@ public class GameManager {
     }
 
     //roles
+    //impostor
     private Player impersonator = null;
     public Player getImpersonator() {
         return impersonator;
     }
 
+    //innocent
     private Player investigator = null;
     public Player getInvestigator() {
         return investigator;
+    }
+
+    //other
+    private boolean jesterStatus = false;
+    public boolean getJesterStatus() {
+        return jesterStatus;
+    }
+    public void setJesterStatus(boolean status) {
+        jesterStatus = status;
+    }
+    private Player jester = null;
+    public Player getJester() {
+        return jester;
+    }
+    public void clearJester() {
+        jester = null;
     }
 
     
@@ -113,7 +143,37 @@ public class GameManager {
 
         impostors.addAll(players.subList(0, Math.min(impostorCount, players.size())));
         innocents.addAll(players);
+
         innocents.removeAll(impostors);
+
+        if(impostorCount > 1 && impersonator == null) {
+            Collections.shuffle(impostors);
+            impersonator = impostors.get(0);
+        }
+        if(impersonator == null) {
+            Random random = new Random();
+            if(random.nextInt() % 2 == 0) {
+                Collections.shuffle(impostors);
+                impersonator = impostors.get(0);
+            }
+        }
+
+        if(jesterStatus) {
+            Random random = new Random();
+            if(random.nextInt() % 2 == 0) {
+                Collections.shuffle(innocents);
+                jester = innocents.get(0);
+                innocents.remove(jester);
+            }
+        }
+
+        if(getInnocentsList().size() > (impostorCount + 2) && investigator == null) {
+            Collections.shuffle(innocents);
+            investigator = innocents.get(0);
+        }
+
+
+
 
 
         for(World world : Bukkit.getWorlds()) {
@@ -147,19 +207,17 @@ public class GameManager {
             player.getInventory().setItemInOffHand(null);
             player.getEnderChest().clear();
 
-            if(getImpostorsList().contains(player)) {
-                if(impostorCount > 1 && impersonator == null) {
-                    Collections.shuffle(impostors);
-                    impersonator = impostors.get(0);
-                }
-                if(impersonator == null) {
-                    Random random = new Random();
-                    if(random.nextInt() % 2 == 0) {
-                        Collections.shuffle(impostors);
-                        impersonator = impostors.get(0);
-                    }
-                }
 
+            CommandSender sender = Bukkit.getConsoleSender();
+            Bukkit.dispatchCommand(sender, "team add impostor");
+            Bukkit.dispatchCommand(sender, "team modify impostor nametagVisibility hideForOtherTeams");
+
+            Bukkit.dispatchCommand(sender, "team add innocent");
+            Bukkit.dispatchCommand(sender, "team modify innocent nametagVisibility hideForOwnTeam");
+
+
+
+            if(getImpostorsList().contains(player)) {
                 String title = (player == impersonator) ? "IMPERSONATOR" : "IMPOSTOR";
                 player.sendTitle(ChatColor.RED + title, "Objective: Kill all innocents", 10, 100, 10);
 
@@ -173,13 +231,20 @@ public class GameManager {
                     player.sendMessage(ChatColor.RED + "and dont get discovered");
                 }
                 player.sendMessage("");
+                Bukkit.dispatchCommand(sender, "team join impostor " + player.getName());
 
+            } else if(jester.equals(player)) {
+                player.sendTitle(ChatColor.LIGHT_PURPLE + "JESTER", "Objective: Get killed by innocent player", 10, 100, 10);
+
+                player.sendMessage("");
+
+                player.sendMessage(ChatColor.LIGHT_PURPLE + "You have to be killed by INNOCENT player");
+                player.sendMessage(ChatColor.LIGHT_PURPLE + "You will win when innocent kills u");
+                player.sendMessage(ChatColor.LIGHT_PURPLE + "also dont kill INNOCENT players");
+
+                player.sendMessage("");
+                Bukkit.dispatchCommand(sender, "team join innocent " + player.getName());
             } else {
-                if(getInnocentsList().size() > (impostorCount + 2) && investigator == null) {
-                    Collections.shuffle(innocents);
-                    investigator = innocents.get(0);
-                }
-
                 String title = (player == investigator) ? "INVESTIGATOR" : "INNOCENT";
                 player.sendTitle(ChatColor.GREEN + title, "Objective: Slay the Ender Dragon", 10, 100, 10);
 
@@ -195,6 +260,7 @@ public class GameManager {
                     player.sendMessage(ChatColor.GREEN + "and dont die");
                 }
                 player.sendMessage("");
+                Bukkit.dispatchCommand(sender, "team join innocent " + player.getName());
             }
 
             player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 2000, 1));

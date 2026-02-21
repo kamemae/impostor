@@ -38,8 +38,8 @@ public class CompassManager {
 
             double angle = getRelativeAngle(impostor, player);
 
-            if (angle > 90) bar[barSize - 1] = '>';
-            else if (angle < -90) bar[0] = '<';
+            if(angle > 90) bar[barSize - 1] = '>';
+            else if(angle < -90) bar[0] = '<';
             else {
                 int index = (int) ((angle + 180) / 360 * (barSize - 1));
                 if(index >= 0 && index < barSize) { 

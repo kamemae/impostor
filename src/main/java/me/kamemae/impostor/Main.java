@@ -7,6 +7,7 @@ import me.kamemae.impostor.managers.PluginManager;
 import me.kamemae.impostor.managers.TimerManager;
 // commands
 import me.kamemae.impostor.commands.AboutCommand;
+import me.kamemae.impostor.commands.JesterCommand;
 import me.kamemae.impostor.commands.SetImpostorsCommand;
 import me.kamemae.impostor.commands.SetRoundTimeCommand;
 import me.kamemae.impostor.commands.StartCommand;
@@ -57,6 +58,7 @@ public class Main extends JavaPlugin {
         getCommand("about").setExecutor(new AboutCommand());
         getCommand("setimpostors").setExecutor(new SetImpostorsCommand(gameManager));
         getCommand("setroundtime").setExecutor(new SetRoundTimeCommand(gameManager));
+        getCommand("jester").setExecutor(new JesterCommand(gameManager));
     
         // util commands - during game
         getCommand("lost").setExecutor(new Lost(gameManager));

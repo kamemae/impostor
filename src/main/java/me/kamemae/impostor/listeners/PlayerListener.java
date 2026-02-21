@@ -3,7 +3,9 @@ import me.kamemae.impostor.managers.GameManager;
 
 import org.bukkit.event.Listener;
 import org.bukkit.Bukkit;
+import org.bukkit.Difficulty;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -22,6 +24,11 @@ public class PlayerListener implements Listener {
             event.getPlayer().sendMessage("A game is currently active. Please wait for the next round to join.");
             event.getPlayer().setGameMode(org.bukkit.GameMode.SPECTATOR);
             event.setJoinMessage(null);
+        } else {
+            event.getPlayer().setGameMode(org.bukkit.GameMode.ADVENTURE);
+            for(World world : Bukkit.getWorlds()) {
+                world.setDifficulty(Difficulty.PEACEFUL);
+            }
         }
     }
     @EventHandler
