@@ -20,11 +20,10 @@ public class CommandsListener implements Listener {
                 msg.equals("/tell") || 
                 msg.equals("/w") || 
                 msg.equals("/me")) {
-
+            
                     event.setCancelled(true);
                     event.getPlayer().sendMessage("Chat is disabled during the game");
             }
         }
-
     }
 }

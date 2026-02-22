@@ -69,9 +69,9 @@ public class GameManager {
                 break;
 
             case 3: 
-                tittlemsg = "IMPOSTORS WON?";
+                tittlemsg = "DRAW";
                 submsg = "Time's up!";
-                color = ChatColor.RED;
+                color = ChatColor.GRAY;
                 break;
 
             case 69:
@@ -81,7 +81,7 @@ public class GameManager {
                 break;
 
             default:
-                tittlemsg = "idk sth went wrong";
+                tittlemsg = "something broke";
                 submsg = "nobody wins";
                 break;
         }
@@ -142,12 +142,18 @@ public class GameManager {
         Bukkit.dispatchCommand(sender, "team modify innocent nametagVisibility hideForOwnTeam");
     }
     public void startGame() {
+        if(Bukkit.getOnlinePlayers().size() < 2) return;
+        
         setupMinecraftCommands();
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         Collections.shuffle(players);
 
         impostors.clear();
         innocents.clear();
+
+        impersonator = null;
+        investigator = null;
+        jester = null;
 
         impostors.addAll(players.subList(0, Math.min(impostorCount, players.size())));
         innocents.addAll(players);
@@ -237,7 +243,7 @@ public class GameManager {
                 Bukkit.dispatchCommand(sender, "team join impostor " + player.getName());
                 Bukkit.dispatchCommand(sender, "attribute " + player.getName() + " minecraft:waypoint_receive_range base set 1000000");
 
-            } else if(jester.equals(player)) {
+            } else if(jester != null && jester.equals(player)) {
                 player.sendTitle(ChatColor.LIGHT_PURPLE + "JESTER", "Objective: Get killed by innocent player", 10, 100, 10);
 
                 player.sendMessage("");
