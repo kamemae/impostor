@@ -64,5 +64,5 @@ If you’d like to download the plugin directly:
 - More **customization**
 - Better **game menager**
 - Hiding players in playerlist
-- **DETECTIVE** ROLE!!!!!!!!
 - ...and maybe integration with **[Multiverse-Core](https://www.spigotmc.org/resources/multiverse-core.390/)**  
+- Grant roles after specified time
