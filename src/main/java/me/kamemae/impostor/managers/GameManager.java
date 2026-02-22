@@ -133,8 +133,16 @@ public class GameManager {
         jester = null;
     }
 
-    
+    private void setupMinecraftCommands() {
+        CommandSender sender = Bukkit.getConsoleSender();
+        Bukkit.dispatchCommand(sender, "execute as @a run attribute @s minecraft:waypoint_transmit_range base set 10000000");
+        Bukkit.dispatchCommand(sender, "team add impostor");
+        Bukkit.dispatchCommand(sender, "team modify impostor nametagVisibility hideForOtherTeams");
+        Bukkit.dispatchCommand(sender, "team add innocent");
+        Bukkit.dispatchCommand(sender, "team modify innocent nametagVisibility hideForOwnTeam");
+    }
     public void startGame() {
+        setupMinecraftCommands();
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         Collections.shuffle(players);
 
@@ -152,7 +160,7 @@ public class GameManager {
         }
         if(impersonator == null) {
             Random random = new Random();
-            if(random.nextInt() % 1 == 0) {
+            if(random.nextInt() % 2 == 0) {
                 Collections.shuffle(impostors);
                 impersonator = impostors.get(0);
             }
@@ -184,7 +192,8 @@ public class GameManager {
             world.setTime(0);
         }
 
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "execute as @a run attribute @s minecraft:waypoint_transmit_range base set 10000000");
+       
+        
 
         int effectAmp = 255;
         int effectDur = 100;
@@ -210,13 +219,6 @@ public class GameManager {
 
 
             CommandSender sender = Bukkit.getConsoleSender();
-            Bukkit.dispatchCommand(sender, "team add impostor");
-            Bukkit.dispatchCommand(sender, "team modify impostor nametagVisibility hideForOtherTeams");
-
-            Bukkit.dispatchCommand(sender, "team add innocent");
-            Bukkit.dispatchCommand(sender, "team modify innocent nametagVisibility hideForOwnTeam");
-
-
 
             if(getImpostorsList().contains(player)) {
                 String title = (player == impersonator) ? "IMPERSONATOR" : "IMPOSTOR";
