@@ -17,10 +17,10 @@ If you’d like to download the plugin directly:
 3. Drop the `.jar` file into your server’s `plugins` folder
 4. Restart the server
 
-## 🛠️ Building it yourself
-1. Clone or download repo
-2. Open terminal and navigate into folder with plugin
-3. Download maven (on windows add it into Env Variables) and java (17 or higher)
+## 🛠️ Build it yourself
+1. Setup maven (on windows add it into Env Variables) and download java (17 or higher)
+2. Clone or download repo
+3. Open terminal and navigate into folder with plugin
 4. Compile plugin and create package
 ```
     mvn clean compile package
