@@ -36,7 +36,15 @@ If you’d like to download the plugin directly:
 ### 🔧 Game Setup
 **Select the number of impostors**
 ```
-    /setimpostors <num>
+    /setimpostors <number>
+```
+**Disable/Enable Jester (disabled on default)**
+```
+    /jester
+```
+**Change round time (in minutes)**
+```
+    /setroundtime <number>
 ```
 **Start the game**
 ```
@@ -52,17 +60,32 @@ If you’d like to download the plugin directly:
 ```
     /lost
 ```
+**As Impersonator, you can fake death of someone**
+```
+    /impersonate <nickname>
+```
+**As Investigator, you can accuse someone of being Imposotr (will be revealed as impostor) or Jester (will die), but if you miss u'll be punished (you will die)**
+```
+    /accuse <nickname>
+```
 
 ---
 
 ## 📝 NOTES
 - Designed for multiplayer
 - Best expirience with **[voice-chat](https://www.curseforge.com/minecraft/mc-mods/simple-voice-chat)** plugin
-- Works on **latest Minecraft** version (1.21.11)
+- Works on **latest Minecraft** version **(1.21.11)**
 
 ## 📋 Future plans
+- More impostor and innocent roles
+- Cleaning up code
+- Better powers
+- Player perks
+- In game settings (via panel or chat, so player dont have to use commands on chat)
 - More **customization**
 - Better **game menager**
 - Hiding players in playerlist
 - ...and maybe integration with **[Multiverse-Core](https://www.spigotmc.org/resources/multiverse-core.390/)**  
 - Grant roles after specified time
+- Lock settings modification during countdown
+- 
