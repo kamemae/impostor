@@ -282,7 +282,7 @@ public class GameManager {
             player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 2000, 1));
         }
 
-        timerManager.start(gameTimer);
+        if(gameTimer > 0) timerManager.start(gameTimer);
 
         Bukkit.broadcastMessage("Game started!");
         gameStarted = true;

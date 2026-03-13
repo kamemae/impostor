@@ -95,3 +95,7 @@ public class Main extends JavaPlugin {
         getLogger().info("Impostor disabled");
     }
 }
+
+
+
+// disable timer when /setroundtime equals 0 or less
