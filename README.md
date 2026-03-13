@@ -23,8 +23,7 @@ If you’d like to download the plugin directly:
 3. Download maven (on windows add it into Env Variables) and java (17 or higher)
 4. Compile plugin and create package
 ```
-    mvn clean compile
-    mvn clean package
+    mvn clean compile package
 ```
 5. Then drop compiled `.jar` package into your server's `plugins` folder
 6. Restart your server
