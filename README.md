@@ -89,6 +89,6 @@ If you’d like to download the plugin directly:
 - Lock settings modification during countdown
 
 ## 👜 You can check this plugin out on:
-- **[Spigpt](https://www.spigotmc.org/resources/impostor.133598/)**
+- **[Spigot](https://www.spigotmc.org/resources/impostor.133598/)**
 - **[Modrinth]()** Under Review
 - **[CurseForge]()** I dont have icon rn
