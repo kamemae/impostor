@@ -90,5 +90,5 @@ If you’d like to download the plugin directly:
 
 ## 👜 You can check this plugin out on:
 - **[Spigot](https://www.spigotmc.org/resources/impostor.133598/)**
-- **[Modrinth]()** Under Review
+- **[Modrinth](https://modrinth.com/plugin/impostor)**
 - **[CurseForge]()** I dont have icon rn
