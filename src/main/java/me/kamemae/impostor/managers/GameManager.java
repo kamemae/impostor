@@ -19,6 +19,7 @@ import java.util.Random;
 import org.bukkit.command.CommandSender;
 
 
+
 public class GameManager {
     private TimerManager timerManager;
     public void SetTimer(TimerManager timerManager) {
@@ -204,6 +205,7 @@ public class GameManager {
         int effectAmp = 255;
         int effectDur = 100;
 
+        CommandSender sender = Bukkit.getConsoleSender();
         for(Player player : players) {
             //PotionEffectType[] effects = { PotionEffectType.DARKNESS, PotionEffectTpye.BLINDNESS };
             player.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS, effectDur, effectAmp));
@@ -224,7 +226,9 @@ public class GameManager {
             player.getEnderChest().clear();
 
 
-            CommandSender sender = Bukkit.getConsoleSender();
+            
+            if(player.isOp() == true) Bukkit.dispatchCommand(sender, "deop " + player.getName());
+
 
             if(getImpostorsList().contains(player)) {
                 String title = (player == impersonator) ? "IMPERSONATOR" : "IMPOSTOR";
